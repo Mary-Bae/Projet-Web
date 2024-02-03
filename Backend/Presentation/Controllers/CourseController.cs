@@ -1,33 +1,51 @@
+using BusinessLayer;
+using Domain;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace Presentation.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class CourseController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+        private readonly ICourseService _courseService;
 
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public CourseController(ICourseService courseService)
         {
-            _logger = logger;
+            _courseService = courseService;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        [HttpGet]
+        public ActionResult<IEnumerable<Course>> GetCourses()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            try
             {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+                return Ok(_courseService.GetAll());
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpGet("ByName")]
+        public Course? Get(string name)
+        {
+            return _courseService.Get(name);
+        }
+
+        [HttpPost]
+        public void PostCourses(Course course)
+        {
+            _courseService.addCourse(course);
+        }
+
+        [HttpDelete]
+        public void DeleteCourses(Course course)
+        {
+            _courseService.deleteCourse(course);
         }
     }
+    
 }
