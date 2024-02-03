@@ -1,5 +1,6 @@
 using BusinessLayer;
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -7,6 +8,7 @@ namespace Presentation.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class CourseController : ControllerBase
     {
         private readonly ICourseService _courseService;
@@ -17,6 +19,7 @@ namespace Presentation.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult<IEnumerable<Course>> GetCourses()
         {
             try
@@ -30,6 +33,7 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("ByName")]
+        [AllowAnonymous]
         public Course? Get(string name)
         {
             return _courseService.Get(name);
@@ -47,5 +51,5 @@ namespace Presentation.Controllers
             _courseService.deleteCourse(course);
         }
     }
-    
+
 }
