@@ -11,5 +11,6 @@ namespace DataAccessLayer
     {
         IEnumerable<Course> GetAll();
         public IEnumerable<Course> Get(string name);
+        void addCourse(Course course);
     }
 }
