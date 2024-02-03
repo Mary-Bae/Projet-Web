@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,11 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer
 {
-    internal interface ICourseRepository
+    public interface ICourseRepository
     {
+        IEnumerable<Course> GetAll();
+        public IEnumerable<Course> Get(string name);
+        void addCourse(Course course);
+        void deleteCourse(Course course);
     }
 }
