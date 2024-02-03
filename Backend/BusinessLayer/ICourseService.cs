@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer
 {
-    internal interface ICourseService
+    public interface ICourseService
     {
     }
 }
