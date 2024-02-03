@@ -12,5 +12,6 @@ namespace BusinessLayer
         IEnumerable<Course> GetAll();
         public Course? Get(string name);
         void addCourse(Course course);
+        void deleteCourse(Course course);
     }
 }
