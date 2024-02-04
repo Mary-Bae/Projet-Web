@@ -75,21 +75,6 @@ namespace Authentication.Authentication{
             var newUser= new User(username, passwordHash, salt);
             users.Add(newUser);
         }
-
-        //public string Login(string username, string password)
-        //{
-        //    var user = users.FirstOrDefault(user => user.Username.ToLower() == username.ToLower()) ??
-        //                      throw new Exception("Login failed; Invalid userID or password");
-
-        //    var passwordHash = HashPassword(password, user.Salt);
-        //    if (user.Password == passwordHash)
-        //    {
-        //        var token = GenerateJSONWebToken(username);
-        //        return token;
-        //    }
-        //    throw new Exception("Login failed; Invalid userID or password");
-        //}
-
         public object Login(string username, string password)
         {
             var user = users.FirstOrDefault(user => user.Username.ToLower() == username.ToLower()) ??
@@ -103,7 +88,6 @@ namespace Authentication.Authentication{
             }
             throw new Exception("Login failed; Invalid userID or password");
         }
-
     }
 
     public class User
