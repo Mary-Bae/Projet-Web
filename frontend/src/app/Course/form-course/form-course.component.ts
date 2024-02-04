@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { CourseModel } from './course.model';
-import { CourseService } from './course.service';
+import { CourseModel } from '../../shared/course.model';
+import { CourseService } from '../../shared/course.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
