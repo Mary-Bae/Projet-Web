@@ -9,13 +9,15 @@ import { FormCourseComponent } from './Course/form-course/form-course.component'
 import { ReactiveFormsModule } from '@angular/forms';
 import { TableCourseComponent } from './Course/table-course/table-course.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     FormCourseComponent,
-    TableCourseComponent
+    TableCourseComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

@@ -10,3 +10,7 @@
 .navbar-nav .nav-link:hover {
     color: #a10909;
   }
+  .container-fluid{
+    margin-left: 2%;
+    margin-right: 5%
+  }
