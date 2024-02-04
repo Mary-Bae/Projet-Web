@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Authentication.Authentication{
@@ -73,22 +74,36 @@ namespace Authentication.Authentication{
             var passwordHash= HashPassword(password, salt );
             var newUser= new User(username, passwordHash, salt);
             users.Add(newUser);
-
-            
         }
 
-        public string Login(string username, string password){
+        //public string Login(string username, string password)
+        //{
+        //    var user = users.FirstOrDefault(user => user.Username.ToLower() == username.ToLower()) ??
+        //                      throw new Exception("Login failed; Invalid userID or password");
+
+        //    var passwordHash = HashPassword(password, user.Salt);
+        //    if (user.Password == passwordHash)
+        //    {
+        //        var token = GenerateJSONWebToken(username);
+        //        return token;
+        //    }
+        //    throw new Exception("Login failed; Invalid userID or password");
+        //}
+
+        public object Login(string username, string password)
+        {
             var user = users.FirstOrDefault(user => user.Username.ToLower() == username.ToLower()) ??
-                              throw new Exception("Login failed; Invalid userID or password");
+                                  throw new Exception("Login failed; Invalid userID or password");
 
             var passwordHash = HashPassword(password, user.Salt);
             if (user.Password == passwordHash)
             {
                 var token = GenerateJSONWebToken(username);
-                return token;
+                return new { token };
             }
             throw new Exception("Login failed; Invalid userID or password");
         }
+
     }
 
     public class User

@@ -28,10 +28,11 @@ public class AuthenticationController : ControllerBase
 
     [HttpPost("Login")]
     [AllowAnonymous]
-    public string Login(string login, string password)
+    public object Login(string login, string password)
     {
         return _authenticationService.Login(login, password);
     }
+    
 
 
 }
