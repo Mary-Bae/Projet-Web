@@ -19,7 +19,6 @@ namespace Presentation.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public ActionResult<IEnumerable<Course>> GetCourses()
         {
             try
@@ -33,7 +32,6 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("ByName")]
-        [AllowAnonymous]
         public Course? Get(string name)
         {
             return _courseService.Get(name);
