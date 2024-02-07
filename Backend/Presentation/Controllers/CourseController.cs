@@ -4,11 +4,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace Presentation.Controllers
+namespace Presentation
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize]
     public class CourseController : ControllerBase
     {
         private readonly ICourseService _courseService;
@@ -17,8 +16,9 @@ namespace Presentation.Controllers
         {
             _courseService = courseService;
         }
-
+        
         [HttpGet]
+        [Authorize(Roles = "User")]
         public ActionResult<IEnumerable<Course>> GetCourses()
         {
             try
@@ -32,22 +32,24 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("ByName")]
+        [Authorize(Roles = "Admin")]
         public Course? Get(string name)
         {
             return _courseService.Get(name);
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public void PostCourses(Course course)
         {
             _courseService.addCourse(course);
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         public void DeleteCourses(Course course)
         {
             _courseService.deleteCourse(course);
         }
     }
-
 }

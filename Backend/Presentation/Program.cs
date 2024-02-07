@@ -1,4 +1,4 @@
-using Authentication.Authentication;
+using Presentation;
 using BusinessLayer;
 using DataAccessLayer;
 using Microsoft.OpenApi.Models;
@@ -15,7 +15,6 @@ builder.Services.AddAuthentication(opt => {
 })
               .AddJwtBearer(options =>
               {
-
                   options.TokenValidationParameters = new TokenValidationParameters
                   {
                       ValidateIssuer = true,
@@ -69,7 +68,7 @@ builder.Services.AddSwaggerGen(option => {
                          });
 });
 
-builder.Services.AddScoped<AuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<AuthenticationServices, AuthenticationServices>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 
@@ -83,11 +82,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
-app.UseCors(MyAllowSpecificOrigins);
 app.Run();

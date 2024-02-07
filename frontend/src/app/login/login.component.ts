@@ -28,13 +28,10 @@ login(){
     console.log(response);
     if(response.token){
       const token = response.token;
-      sessionStorage.setItem("jwt", token);
+      localStorage.setItem("jwt", token);
+      //sessionStorage.setItem("jwt", token);
       this.router.navigate(["/"]);
     }
 })
 }
-
-
-
-
 }
