@@ -15,12 +15,14 @@ export class AuthentificationService {
   }
 
   isAuthenticated(): boolean{
-    const token = sessionStorage.getItem('jwt');
+      //Utilisation de localstorage plutot que sessionstorage pour éviter une déconnection à chaque fois qu'on change de page
+    const token = localStorage.getItem('jwt'); 
     return token != null;
   }
 
   refreshToken() {
-    const token = sessionStorage.getItem('jwt');
+      //Utilisation de localstorage plutot que sessionstorage pour éviter une déconnection à chaque fois qu'on change de page
+    const token = localStorage.getItem('jwt');
     return this.http.get("https://localhost:7093/Authentication/Refreshtoken?token="+token);
   }
 }

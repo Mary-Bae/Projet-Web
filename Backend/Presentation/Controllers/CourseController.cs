@@ -18,7 +18,7 @@ namespace Presentation
         }
         
         [HttpGet]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User, Admin")]
         public ActionResult<IEnumerable<Course>> GetCourses()
         {
             try
