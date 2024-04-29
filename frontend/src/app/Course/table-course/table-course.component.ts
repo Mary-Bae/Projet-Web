@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { CourseService } from '../form-course/course.service';
-import { CourseModel } from '../form-course/course.model';
+import { CourseService } from '../../shared/course.service';
+import { CourseModel } from '../../shared/course.model';
 import { Router } from '@angular/router';
 
 @Component({
@@ -20,7 +20,5 @@ export class TableCourseComponent {
   }
   edit(name:string){
     this.router.navigate(['form-course', name])
-
   }
-
 }

@@ -27,6 +27,21 @@ namespace DataAccessLayer
         {
             _db.Remove(course);
         }
+        public void UpdateCourse(Course course)
+        {
+            var existingCourse = _db.FirstOrDefault(c => c.Name.ToLower() == course.Name.ToLower());
+            if (existingCourse != null)
+            {
+                existingCourse.Level = course.Level;
+                existingCourse.Schedule = course.Schedule;
+                existingCourse.Teacher = course.Teacher;
+                existingCourse.Description = course.Description;
+            }
+            else
+            {
+                throw new Exception("Course not found");
+            }
+        }
 
     }
 }

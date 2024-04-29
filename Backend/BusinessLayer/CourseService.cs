@@ -31,7 +31,13 @@ namespace BusinessLayer
         {
             _courseRepository.deleteCourse(course);
         }
+        public void UpdateCourse(Course course)
+        {
+            _courseRepository.UpdateCourse(course);
+        }
+
+
     }
 
-    
+
 }
