@@ -12,6 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class FormCourseComponent {
 model: CourseModel;
 formCourse: FormGroup;
+successMessage: string | null = null;
 
 constructor(private courseService:CourseService, private route: ActivatedRoute){
 
@@ -36,24 +37,11 @@ constructor(private courseService:CourseService, private route: ActivatedRoute){
           this.formCourse.controls['schedule'].setValue(course.schedule);
           this.formCourse.controls['teacher'].setValue(course.teacher);
           this.formCourse.controls['description'].setValue(course.description);
-
         }
       })
     }
   })
 }
-//save(form: FormGroup){
-//let model= new CourseModel();
-
-//model.name= form.value.name;
-//model.level= form.value.level;
-//model.schedule= form.value.schedule;
-//model.teacher= form.value.teacher;
-//model.description= form.value.description;
-//this.courseService.Post(model);
-//}
-
-
 
 save(form: FormGroup) {
 
@@ -69,8 +57,12 @@ save(form: FormGroup) {
         // Si le cours existe déjà, mettre à jour avec HTTP PUT
         this.courseService.updateCourse(model).subscribe(
           () => {
-            console.log("Course updated successfully.");
-            window.location.href = '/table-course';
+            this.successMessage = "Course updated successfully.";
+            setTimeout(() => {
+              this.successMessage = null; // Effacer le message après 2 secondes
+              window.location.href = '/table-course'; // Rediriger vers la page de la table des cours
+            }, 2000);
+            //window.location.href = '/table-course';
           },
           error => {
             console.error("Error updating course:", error);
@@ -80,8 +72,11 @@ save(form: FormGroup) {
         // Si le cours n'existe pas encore, ajouter avec HTTP POST
         this.courseService.Post(model).subscribe(
           () => {
-            console.log("Course added successfully.");
-            window.location.href = '/form-course';
+            this.successMessage = "Course Added successfully.";
+            setTimeout(() => {
+              this.successMessage = null; // Effacer le message après 2 secondes
+              window.location.href = '/form-course'; // Renouveller le formulaire pour un autre ajout
+            }, 2000);
           },
           error => {
             console.error("Error adding course:", error);

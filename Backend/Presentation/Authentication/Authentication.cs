@@ -28,16 +28,12 @@ using Microsoft.IdentityModel.Tokens;
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-                // Create a ClaimsIdentity
                 var claimsIdentity = new ClaimsIdentity();
 
-                // Add claim for username
                  claimsIdentity.AddClaim(new Claim(JwtRegisteredClaimNames.Sub, user.Username));
 
-                // Add claim for role
                 claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, user.Role));
 
-                // Add other claims
                 claimsIdentity.AddClaim(new Claim("custom_info", "info"));
                 claimsIdentity.AddClaim(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())); ;
 
@@ -48,7 +44,7 @@ using Microsoft.IdentityModel.Tokens;
                     jwtIssuer,
                     jwtAudience,
                     claimsIdentity.Claims,
-                    expires: DateTime.Now.AddMinutes(1),
+                    expires: DateTime.Now.AddMinutes(120),
                     signingCredentials: credentials);
 
                 return new JwtSecurityTokenHandler().WriteToken(token);
