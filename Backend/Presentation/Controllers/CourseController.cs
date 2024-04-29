@@ -52,6 +52,7 @@ namespace Presentation
         }
 
         [HttpPut("{name}")]
+        [Authorize(Roles = "Admin")]
         public ActionResult<Course> PutCourse(string name, Course updatedCourse)
         {
             if (name != updatedCourse.Name)

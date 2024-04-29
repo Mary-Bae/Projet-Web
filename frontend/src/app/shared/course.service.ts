@@ -33,9 +33,6 @@ export class CourseService {
   {
     return this.http.post("https://localhost:7093/Course", course, this.httpOptions);
   }
-  //updateCourse(course: any) {
-    //return this.http.put(`https://localhost:7093/Course/${course.name}`, course, this.httpOptions).subscribe();
-  //}
 
   updateCourse(course: any) {
     return this.http.put(`https://localhost:7093/Course/${course.name}`, course, this.httpOptions);

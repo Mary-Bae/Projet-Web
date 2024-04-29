@@ -57,10 +57,9 @@ save(form: FormGroup) {
         // Si le cours existe déjà, mettre à jour avec HTTP PUT
         this.courseService.updateCourse(model).subscribe(
           () => {
-            console.log("Course updated successfully.");
             this.successMessage = "Course updated successfully.";
             setTimeout(() => {
-              this.successMessage = null; // Effacer le message après 3 secondes (3000 ms)
+              this.successMessage = null; // Effacer le message après 2 secondes
               window.location.href = '/table-course'; // Rediriger vers la page de la table des cours
             }, 2000);
             //window.location.href = '/table-course';
@@ -73,14 +72,11 @@ save(form: FormGroup) {
         // Si le cours n'existe pas encore, ajouter avec HTTP POST
         this.courseService.Post(model).subscribe(
           () => {
-            console.log("Course added successfully.");
             this.successMessage = "Course Added successfully.";
             setTimeout(() => {
-              this.successMessage = null; // Effacer le message après 3 secondes (3000 ms)
-              window.location.href = '/table-course'; // Rediriger vers la page de la table des cours
+              this.successMessage = null; // Effacer le message après 2 secondes
+              window.location.href = '/form-course'; // Renouveller le formulaire pour un autre ajout
             }, 2000);
-            //window.location.href = '/table-course';
-            //window.location.href = '/form-course';
           },
           error => {
             console.error("Error adding course:", error);
