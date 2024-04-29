@@ -20,7 +20,5 @@ export class TableCourseComponent {
   }
   edit(name:string){
     this.router.navigate(['form-course', name])
-
   }
-
 }

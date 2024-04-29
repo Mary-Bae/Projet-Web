@@ -13,5 +13,7 @@ namespace DataAccessLayer
         public IEnumerable<Course> Get(string name);
         void addCourse(Course course);
         void deleteCourse(Course course);
+        void UpdateCourse(Course course);
+
     }
 }

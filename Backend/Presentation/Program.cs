@@ -27,7 +27,7 @@ builder.Services.AddAuthentication(opt => {
                   };
               });
 
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+var MyAllowSpecificOrigins = "frontendCourse";
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,

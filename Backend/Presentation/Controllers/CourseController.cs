@@ -11,7 +11,6 @@ namespace Presentation
     public class CourseController : ControllerBase
     {
         private readonly ICourseService _courseService;
-
         public CourseController(ICourseService courseService)
         {
             _courseService = courseService;
@@ -51,5 +50,29 @@ namespace Presentation
         {
             _courseService.deleteCourse(course);
         }
+
+        [HttpPut("{name}")]
+        public ActionResult<Course> PutCourse(string name, Course updatedCourse)
+        {
+            if (name != updatedCourse.Name)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                _courseService.UpdateCourse(updatedCourse);
+                return Ok(updatedCourse);
+            }
+            catch (InvalidOperationException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An error occurred while updating the course.");
+            }
+        }
+
     }
 }
