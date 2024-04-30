@@ -5,6 +5,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -71,6 +72,10 @@ builder.Services.AddSwaggerGen(option => {
 builder.Services.AddScoped<AuthenticationServices, AuthenticationServices>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+
+var configuration = builder.Configuration;
+builder.Services.AddDbContext<CourseDbContext>(options => // => Injection de dependances
+        options.UseSqlServer(configuration.GetConnectionString("CourseDatabase"))); // Utilisation de la configuration serveur en lui passant la connexion string
 
 var app = builder.Build();
 
