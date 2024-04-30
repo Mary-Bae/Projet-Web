@@ -96,7 +96,7 @@ using Microsoft.IdentityModel.Tokens;
                     throw new SecurityTokenException("Invalid token");
                 }
                 var userName = jwtToken.Subject;
-                var user = users.FirstOrDefault(user => user.Username.ToLower() == userName.ToLower()); // Récupérez l'objet user
+                var user = users.FirstOrDefault(user => user.Username.ToLower() == userName.ToLower());
                 if (user == null)
                 {
                 throw new Exception("User not found");
@@ -122,9 +122,9 @@ using Microsoft.IdentityModel.Tokens;
                         },
                         out validatedToken);
                 }
-                catch (SecurityTokenExpiredException ex)
+                catch (SecurityTokenExpiredException)
                 {
-                    JwtSecurityToken jwtToken = handler.ReadJwtToken(token) as JwtSecurityToken;
+                    JwtSecurityToken jwtToken = handler.ReadJwtToken(token);
                     return (principal, jwtToken);
                 }
                 throw new SecurityTokenException("Invalid token");
