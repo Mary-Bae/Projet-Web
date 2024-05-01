@@ -30,11 +30,11 @@ namespace Presentation
             }
         }
 
-        [HttpGet("ByName")]
+        [HttpGet("ById")]
         [Authorize(Roles = "Admin")]
-        public Course? Get(string name)
+        public Course? Get(int id)
         {
-            return _courseService.Get(name);
+            return _courseService.Get(id);
         }
 
         [HttpPost]
@@ -51,11 +51,11 @@ namespace Presentation
             _courseService.deleteCourse(course);
         }
 
-        [HttpPut("{name}")]
+        [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
-        public ActionResult<Course> PutCourse(string name, Course updatedCourse)
+        public ActionResult<Course> PutCourse(int id, Course updatedCourse)
         {
-            if (name != updatedCourse.Name)
+            if (id != updatedCourse.Id)
             {
                 return BadRequest();
             }
