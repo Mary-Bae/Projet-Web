@@ -12,7 +12,7 @@ namespace DataAccessLayer.Migrations
         {
             migrationBuilder.InsertData(
                             table: "Levels",
-                            column:"LevelName",
+                            column: "LevelName",
                             values: new object[] { "Rookie", "Debutant", "Confirmé" }
                              );
         }
@@ -25,5 +25,6 @@ namespace DataAccessLayer.Migrations
             keyColumn: "Id",
             keyValues: new object[] { 1, 2, 3 });
         }
+
     }
 }

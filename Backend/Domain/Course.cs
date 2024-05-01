@@ -16,8 +16,8 @@ namespace Domain
         public Level Level { get; set; }
         public int LevelId { get; set; }
         public string Schedule { get; set; }
-        public Teacher Teacher { get; set; }
-        public int TeacherId { get; set; }
+        public User User { get; set; }
+        public int UserId { get; set; }
         public string Description { get; set; }
 
     }

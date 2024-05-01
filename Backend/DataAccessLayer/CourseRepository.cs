@@ -42,7 +42,7 @@ namespace DataAccessLayer
             {
                 existingCourse.Level = course.Level;
                 existingCourse.Schedule = course.Schedule;
-                existingCourse.Teacher = course.Teacher;
+                existingCourse.User = course.User;
                 existingCourse.Description = course.Description;
             }
             else

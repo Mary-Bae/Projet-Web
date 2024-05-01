@@ -5,23 +5,21 @@
 namespace DataAccessLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class StudentCourses : Migration
+    public partial class CourseStudentsData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.InsertData(
                             table: "CourseStudents",
-                            columns: new[] { "StudentId", "CourseId" },
+                            columns: new[] { "UserId", "CourseId" },
                             values: new object[,]
                              {
                                  { "1", "1" },
-                                 { "2", "2" },
-                                 { "2", "3" },
-                                 { "3", "2" },
-                                 { "3", "3" },
-                                 { "4", "4" },
-                                 { "4", "5" },
+                                 { "1", "2" },
+                                 { "1", "3" },
+                                 { "1", "4" },
+                                 { "1", "5" },
                              });
         }
 
@@ -31,7 +29,7 @@ namespace DataAccessLayer.Migrations
             migrationBuilder.DeleteData(
             table: "CourseStudents",
             keyColumn: "Id",
-            keyValues: new object[] { 1, 2, 3, 4, 5, 6, 7 });
+            keyValues: new object[] { 1, 2, 3, 4, 5 });
         }
     }
 }
