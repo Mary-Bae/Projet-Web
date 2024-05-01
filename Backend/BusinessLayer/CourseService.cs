@@ -18,9 +18,9 @@ namespace BusinessLayer
             course.ToList().ForEach(course => course.Name = course.Name.ToUpper());
             return course;
         }
-        public Course? Get(string name)
+        public Course Get(int id)
         {
-            return _courseRepository.GetAll().FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
+            return _courseRepository.Get(id);
         }
         public void addCourse(Course course)
         {

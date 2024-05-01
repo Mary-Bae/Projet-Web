@@ -13,36 +13,12 @@ namespace Domain
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Level { get; set; }
+        public Level Level { get; set; }
+        public int LevelId { get; set; }
         public string Schedule { get; set; }
-        public Teacher Teacher { get; set; }
+        public User User { get; set; }
+        public int UserId { get; set; }
         public string Description { get; set; }
 
-
-
-        //[Table("Cours")]
-        //public class Course
-        //{
-        //    [Key]
-        //    public int Id { get; set; }
-        //    [Required]
-        //    public string Name { get; set; }
-        //    [Required]
-        //    public string Level { get; set; }
-        //    [Required]
-        //    public string Schedule { get; set; }
-        //    [Required]
-        //    public Teacher Teacher { get; set; }
-        //    [Required]
-        //    public string Description { get; set; }
-
-        //public Course(string name, string level, string schedule, string teacher, string description)
-        //{
-        //    Name = name;
-        //    Level = level;
-        //    Schedule = schedule;
-        //    Teacher = teacher;
-        //    Description = description;
-        //}
     }
 }

@@ -10,7 +10,7 @@ namespace DataAccessLayer
     public interface ICourseRepository
     {
         IEnumerable<Course> GetAll();
-        public IEnumerable<Course> Get(string name);
+        Course Get(int id);
         void addCourse(Course course);
         void deleteCourse(Course course);
         void UpdateCourse(Course course);

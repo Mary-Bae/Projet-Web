@@ -1,40 +1,48 @@
 ﻿using Domain;
+using Microsoft.IdentityModel.Tokens;
 
 namespace DataAccessLayer
 {
     public class CourseRepository : ICourseRepository
     {
-        private static List<Course> _db = new List<Course>
+        private readonly CourseDbContext _context;
+        public CourseRepository(CourseDbContext dbContext)
         {
-            //new Course("Web","Beginner","Day", "Teacher 1", "Cours de Web"),
-            //new Course("Développement","Beginner","Day", "Teacher 2","Cours de développement"),
-            //new Course("Java","Beginner","Day", "Teacher 3", "Cours de Java"),
-            //new Course("C#","Beginner","Day", "Teacher 4","Cours de C#")
-         };
+            _context = dbContext;
+        }
+
+        //private static List<Course> _db = new List<Course>
+        //{
+        //    new Course("Web","Beginner","Day", "Teacher 1", "Cours de Web"),
+        //    new Course("Développement","Beginner","Day", "Teacher 2","Cours de développement"),
+        //    new Course("Java","Beginner","Day", "Teacher 3", "Cours de Java"),
+        //    new Course("C#","Beginner","Day", "Teacher 4","Cours de C#")
+        // };
+
         public IEnumerable<Course> GetAll()
         {
-            return _db;
+            return _context.Courses;
         }
-        public IEnumerable<Course> Get(string name)
+        public Course Get(int id)
         {
-            return _db;
+            return _context.Courses.Find(id);
         }
         public void addCourse(Course course)
         {
-            _db.Add(course);
+            _context.Courses.Add(course);
         }
         public void deleteCourse(Course course)
         {
-            _db.Remove(course);
+            _context.Courses.Remove(course);
         }
         public void UpdateCourse(Course course)
         {
-            var existingCourse = _db.FirstOrDefault(c => c.Name.ToLower() == course.Name.ToLower());
+            var existingCourse = _context.Courses.FirstOrDefault(c => c.Name.ToLower() == course.Name.ToLower());
             if (existingCourse != null)
             {
                 existingCourse.Level = course.Level;
                 existingCourse.Schedule = course.Schedule;
-                existingCourse.Teacher = course.Teacher;
+                existingCourse.User = course.User;
                 existingCourse.Description = course.Description;
             }
             else
