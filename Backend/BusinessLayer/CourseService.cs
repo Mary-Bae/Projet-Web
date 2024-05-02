@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer;
 using Domain;
+using Models;
 
 namespace BusinessLayer
 {
@@ -11,32 +12,48 @@ namespace BusinessLayer
         {
             _courseRepository = courseRepository;
         }
-        public IEnumerable<Course> GetAll()
+        public IEnumerable<CourseDTO> GetAll()
         {
-            var course = _courseRepository.GetAll();
-
-            course.ToList().ForEach(course => course.Name = course.Name.ToUpper());
-            return course;
+            return _courseRepository.GetAll();
         }
-        public Course Get(int id)
+        public CourseDTO? Get(int id)
         {
             return _courseRepository.Get(id);
         }
-        public void addCourse(Course course)
+        public void AddCourse(CourseCreateDTO courseDto)
         {
-            _courseRepository.addCourse(course);
+            var course = new Course
+            {
+                Name = courseDto.Name,
+                LevelId = courseDto.LevelId,
+                Schedule = courseDto.Schedule,
+                UserId = courseDto.UserId,
+                Description = courseDto.Description
+            };
+
+            _courseRepository.AddCourse(course);
         }
 
-        public void deleteCourse(Course course)
+        public void DeleteCourse(int id)
         {
-            _courseRepository.deleteCourse(course);
+            _courseRepository.DeleteCourse(id);
         }
-        public void UpdateCourse(Course course)
+        public void UpdateCourse(int id, CourseUpdateDTO courseDto)
         {
+            var course = _courseRepository.GetCourseForUpdate(id);
+            if (course == null)
+            {
+                throw new InvalidOperationException("Course not found");
+            }
+
+            course.Name = courseDto.Name;
+            course.LevelId = courseDto.LevelId;
+            course.Schedule = courseDto.Schedule;
+            course.UserId = courseDto.UserId;
+            course.Description = courseDto.Description;
+
             _courseRepository.UpdateCourse(course);
         }
-
-
     }
 
 

@@ -2,7 +2,8 @@ using BusinessLayer;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.EntityFrameworkCore;
+using Models;
 
 namespace Presentation
 {
@@ -17,12 +18,13 @@ namespace Presentation
         }
         
         [HttpGet]
-        [Authorize(Roles = "User, Admin")]
-        public ActionResult<IEnumerable<Course>> GetCourses()
+        [Authorize(Roles = "student, admin, instructor")]
+        public ActionResult<IEnumerable<CourseDTO>> GetCourses()
         {
             try
             {
-                return Ok(_courseService.GetAll());
+                var courses = _courseService.GetAll();
+                return Ok(courses);
             }
             catch
             {
@@ -31,47 +33,71 @@ namespace Presentation
         }
 
         [HttpGet("ById")]
-        [Authorize(Roles = "Admin")]
-        public Course? Get(int id)
+        [Authorize(Roles = "admin, instructor")]
+        public ActionResult<CourseDTO> Get(int id)
         {
-            return _courseService.Get(id);
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public void PostCourses(Course course)
-        {
-            _courseService.addCourse(course);
-        }
-
-        [HttpDelete]
-        [Authorize(Roles = "Admin")]
-        public void DeleteCourses(Course course)
-        {
-            _courseService.deleteCourse(course);
-        }
-
-        [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
-        public ActionResult<Course> PutCourse(int id, Course updatedCourse)
-        {
-            if (id != updatedCourse.Id)
-            {
-                return BadRequest();
-            }
-
-            try
-            {
-                _courseService.UpdateCourse(updatedCourse);
-                return Ok(updatedCourse);
-            }
-            catch (InvalidOperationException)
+            var course = _courseService.Get(id);
+            if (course == null)
             {
                 return NotFound();
             }
-            catch (Exception)
+            return Ok(course);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "admin, instructor")]
+        public IActionResult PostCourse([FromBody] CourseCreateDTO courseDto)
+        {
+            try
             {
-                return StatusCode(500, "An error occurred while updating the course.");
+                _courseService.AddCourse(courseDto);
+                return Ok("Course added successfully.");
+            }
+            catch (DbUpdateException ex)
+            {
+                return BadRequest("Failed to add course: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "admin, instructor")]
+        public IActionResult DeleteCourse(int id)
+        {
+            try
+            {
+                _courseService.DeleteCourse(id);
+                return Ok("Course deleted successfully.");
+            }
+            catch (InvalidOperationException ex)
+            {
+                return NotFound("Course not found: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred: " + ex.Message);
+            }
+        }
+
+        [HttpPut("{id}")]
+        [Authorize(Roles = "admin, instructor")]
+        public IActionResult UpdateCourse(int id, [FromBody] CourseUpdateDTO updatedCourseDto)
+        {
+            try
+            {
+                _courseService.UpdateCourse(id, updatedCourseDto);
+                return Ok("Course updated successfully.");
+            }
+            catch (InvalidOperationException ex)
+            {
+                return NotFound("Course not found: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred: " + ex.Message);
             }
         }
 

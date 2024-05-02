@@ -1,3 +1,4 @@
+using BusinessLayer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +10,10 @@ namespace Presentation
     public class AuthenticationController : ControllerBase
     {
         private readonly ILogger<AuthenticationController> _logger;
-        private readonly AuthenticationServices _authenticationService;
-
+        private readonly IAuthenticationServices _authenticationService;
+        
         public AuthenticationController(ILogger<AuthenticationController> logger,
-                                        AuthenticationServices authenticationService)
+                                        IAuthenticationServices authenticationService)
         {
             _logger = logger;
             _authenticationService = authenticationService;
@@ -20,9 +21,17 @@ namespace Presentation
 
         [HttpPost("Register")]
         [AllowAnonymous]
-        public void Register(string login, string password)
+        public IActionResult Register(string login, string password, int roleId)
         {
-            _authenticationService.RegisterUser(login, password);
+            try
+            {
+                _authenticationService.RegisterUser(login, password, roleId);
+                return Ok("User registered successfully.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("Login")]
@@ -36,21 +45,30 @@ namespace Presentation
         [AllowAnonymous]
         public IActionResult Refreshtoken(string token)
         {
-            var refreshedToken = _authenticationService.Refreshtoken(token);
-            return Ok(new { Token = refreshedToken });
+            try
+            {
+                var refreshedToken = _authenticationService.RefreshToken(token);
+                return Ok(new { Token = refreshedToken });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("AssignRole")]
-        [Authorize(Roles = "Admin")]
-        public void AssignRole(string username, string role)
+        [Authorize(Roles = "admin")]
+        public IActionResult AssignRole(string username, string roleName)
         {
-            var user = _authenticationService.GetUser(username);
-            if (user == null)
+            try
             {
-                throw new Exception("User not found");
+                _authenticationService.AssignRole(username, roleName);
+                return Ok("Role assigned successfully.");
             }
-
-            user.Role = role;
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 
