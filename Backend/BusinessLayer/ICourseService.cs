@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace BusinessLayer
 {
     public interface ICourseService
     {
-        IEnumerable<Course> GetAll();
-        public Course Get(int id);
-        void addCourse(Course course);
-        void deleteCourse(Course course);
-        void UpdateCourse(Course course);
+        IEnumerable<CourseDTO> GetAll();
+        public CourseDTO? Get(int id);
+        void AddCourse(CourseCreateDTO courseDto);
+        void DeleteCourse(int id);
+        void UpdateCourse(int id, CourseUpdateDTO courseDto);
     }
 }

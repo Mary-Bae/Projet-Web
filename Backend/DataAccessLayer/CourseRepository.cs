@@ -1,5 +1,7 @@
 ﻿using Domain;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Models;
 
 namespace DataAccessLayer
 {
@@ -11,44 +13,67 @@ namespace DataAccessLayer
             _context = dbContext;
         }
 
-        //private static List<Course> _db = new List<Course>
-        //{
-        //    new Course("Web","Beginner","Day", "Teacher 1", "Cours de Web"),
-        //    new Course("Développement","Beginner","Day", "Teacher 2","Cours de développement"),
-        //    new Course("Java","Beginner","Day", "Teacher 3", "Cours de Java"),
-        //    new Course("C#","Beginner","Day", "Teacher 4","Cours de C#")
-        // };
+        public IEnumerable<CourseDTO> GetAll()
+        {
+            return _context.Courses
+            .Include(c => c.Level)
+            .Include(c => c.User)
+            .Select(c => new CourseDTO
+        {
+            Name = c.Name,
+            LevelName = c.Level.LevelName,
+            Schedule = c.Schedule,
+            Username = c.User.Username,
+            Description = c.Description
+        })
+        .ToList();
+        }
+        public CourseDTO? Get(int id)
+        {
+            return _context.Courses
+                .Where(c => c.Id == id)
+                .Include(c => c.Level)
+                .Include(c => c.User)
+                .Select(c => new CourseDTO
+                {
+                    Name = c.Name,
+                    LevelName = c.Level.LevelName,
+                    Schedule = c.Schedule,
+                    Username = c.User.Username,
+                    Description = c.Description
+                })
+                .FirstOrDefault();
+        }
 
-        public IEnumerable<Course> GetAll()
+        public Course? GetCourseForUpdate(int id)
         {
-            return _context.Courses;
+            return _context.Courses
+                           .Include(c => c.Level)
+                           .Include(c => c.User)
+                           .FirstOrDefault(c => c.Id == id);
         }
-        public Course Get(int id)
-        {
-            return _context.Courses.Find(id);
-        }
-        public void addCourse(Course course)
+        public void AddCourse(Course course)
         {
             _context.Courses.Add(course);
+            _context.SaveChanges();
         }
-        public void deleteCourse(Course course)
+        public void DeleteCourse(int id)
         {
-            _context.Courses.Remove(course);
-        }
-        public void UpdateCourse(Course course)
-        {
-            var existingCourse = _context.Courses.FirstOrDefault(c => c.Name.ToLower() == course.Name.ToLower());
-            if (existingCourse != null)
+            var course = _context.Courses.Find(id);
+            if (course != null)
             {
-                existingCourse.Level = course.Level;
-                existingCourse.Schedule = course.Schedule;
-                existingCourse.User = course.User;
-                existingCourse.Description = course.Description;
+                _context.Courses.Remove(course);
+                _context.SaveChanges();
             }
             else
             {
-                throw new Exception("Course not found");
+                throw new InvalidOperationException("Course not found");
             }
+        }
+        public void UpdateCourse(Course course)
+        {
+            _context.Courses.Update(course);
+            _context.SaveChanges();
         }
 
     }
